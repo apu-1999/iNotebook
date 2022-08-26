@@ -5,9 +5,9 @@ const { body, validationResult } = require('express-validator');
 const bcrypt =  require("bcryptjs")
 const JWT_SECRET = 'Apurvabrilliantwork';
 const jwt = require('jsonwebtoken')
+const fetchUser = require('../middleware/fetchUser');
 
-
-//Create a User using: POST "/api/auth/createuser".Doesn't reuire auth
+// ROUTE 1: Create a User using: POST "/api/auth/createuser".Doesn't reuire auth
 router.post('/createuser', [
     body('name','Your Name should be atleast 3 characters').isLength({
         min: 3
@@ -57,7 +57,7 @@ router.post('/createuser', [
     
 })
 
-//Authenticate a User using: POST "/api/auth/getuser".No login req
+// ROUTE 2: Authenticate a User using: POST "/api/auth/login".No login req
 router.post('/login', [
     body('email','Enter a valid email').isEmail(),
     body('password','Password cannot be blank').exists()
@@ -84,6 +84,18 @@ router.post('/login', [
         }
         const authToken = jwt.sign(data, JWT_SECRET);
         res.json({authToken});
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+// ROUTE 3: Get User details: POST "/api/auth/getuser".Login req
+router.post('/getuser' , fetchUser, async (req, res) => {
+    try {
+        userId = req.user.id;
+       let user = await User.findById(userId).select("-password") ;
+       res.send(user);
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
