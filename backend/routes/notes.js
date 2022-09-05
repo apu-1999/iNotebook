@@ -29,15 +29,17 @@ router.post(
     }),
   ],
   async (req, res) => {
-    
     try {
-        const { title, description, tag } = req.body;
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
+      const { title, description, tag } = req.body;
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
-        }
+      }
       const note = new Notes({
-        title, description, tag, user: req.user.id,
+        title,
+        description,
+        tag,
+        user: req.user.id,
       });
       const savedNotes = await note.save();
       res.json(savedNotes);
@@ -47,5 +49,33 @@ router.post(
     }
   }
 );
+
+// ROUTE 3: Updating an existing note for the logged in  user using: POST "/api/notes/updatenote".Require login
+router.put("/updatenote/:id", fetchUser, async (req, res) => {
+  const { title, description, tag } = req.body;
+  //Create a newNote object
+  const newNote = {};
+  if(title){
+    newNote.title = title;
+  }
+  if(description){
+    newNote.description = description;
+  }
+  if(tag){
+    newNote.tag = tag;
+  }
+
+  //Find the note to be updated and update it
+  let note = await Notes.findById(req.params.id);
+  if(!note){
+    return res.status(404).send("Data not found");
+  }
+  if(note.user.toString() !== req.user.id ){
+    return res.status(404).send("Not Allowed");
+  }
+
+  note = await Notes.findByIdAndUpdate(req.params.id, {$set : newNote}, {new : true});
+  res.json({note});
+});
 
 module.exports = router;
