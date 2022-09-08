@@ -19,6 +19,46 @@ const NoteState = (props) => {
           "description": "Learn Java for backend deliverable",
           "tag": "Urgent",
           "__v": 0
+        },
+        {
+          "_id": "631971e0f3794ad00d863377",
+          "user": "63087665cff9f811cbaaed46",
+          "title": "Learn Java",
+          "description": "Learn Java for backend deliverable",
+          "tag": "Urgent",
+          "__v": 0
+        },
+        {
+          "_id": "631971e0f3794ad00d863377",
+          "user": "63087665cff9f811cbaaed46",
+          "title": "Learn Java",
+          "description": "Learn Java for backend deliverable",
+          "tag": "Urgent",
+          "__v": 0
+        },
+        {
+          "_id": "631971e0f3794ad00d863377",
+          "user": "63087665cff9f811cbaaed46",
+          "title": "Learn Java",
+          "description": "Learn Java for backend deliverable",
+          "tag": "Urgent",
+          "__v": 0
+        },
+        {
+          "_id": "631971e0f3794ad00d863377",
+          "user": "63087665cff9f811cbaaed46",
+          "title": "Learn Java",
+          "description": "Learn Java for backend deliverable",
+          "tag": "Urgent",
+          "__v": 0
+        },
+        {
+          "_id": "631971e0f3794ad00d863377",
+          "user": "63087665cff9f811cbaaed46",
+          "title": "Learn Java",
+          "description": "Learn Java for backend deliverable",
+          "tag": "Urgent",
+          "__v": 0
         }
       ]
       const [notes, setNotes] = useState(notesInitial);
