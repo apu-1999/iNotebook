@@ -20,9 +20,10 @@ router.post(
     }),
   ],
   async (req, res) => {
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success, errors: errors.array() });
     }
 
     //Check whether the user with this email exists already
@@ -31,7 +32,7 @@ router.post(
       if (user) {
         res
           .status(400)
-          .json({ error: "Sorry! User with this email already exists" });
+          .json({ success, error: "Sorry! User with this email already exists" });
       }
       // generate salt to hash password
       const salt = await bcrypt.genSalt(10);
@@ -52,7 +53,8 @@ router.post(
       //     console.log(err)
       //     res.json({error : "Please enter unique value for key", message : err.message})
       // });
-      res.json({ authToken });
+      success = true;
+      res.json({ success, authToken });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal Server Error");
