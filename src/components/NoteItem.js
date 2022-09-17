@@ -8,6 +8,7 @@ const NoteItem = (props) => {
   const handleDelete = (e) => {
     e.preventDefault();
     deleteNote(note._id);
+    props.showAlert("Note Deleted Successfully","success");
   }
    
   return (
